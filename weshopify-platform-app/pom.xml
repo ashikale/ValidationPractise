@@ -46,6 +46,8 @@
 	<distributionManagement>
     <repository>
         <id>central</id>
+        <username>admin</username>
+      <password>E1891@Urja</password> 
         <name>Sandesh-releases</name>
         <url>http://localhost:8081/artifactory/weshopify-service-registry-123456asdf</url>
     </repository>
