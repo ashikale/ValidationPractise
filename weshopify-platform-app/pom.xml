@@ -43,4 +43,16 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+    <repository>
+        <id>central</id>
+        <name>Sandesh-releases</name>
+        <url>http://localhost:8081/artifactory/weshopify-service-registry-123456asdf</url>
+    </repository>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>Sandesh-snapshots</name>
+        <url>http://localhost:8081/artifactory/weshopify-service-registry-123456asdf</url>
+    </snapshotRepository>
+</distributionManagement>
 </project>
