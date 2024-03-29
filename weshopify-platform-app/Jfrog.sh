@@ -1,51 +1,21 @@
- pipeline {
-    agent any
-    environment{
-        CI= true
-        JROG_CREDENTIALS= credentials('jfrog-credentials')
-    }
- 
- tools {
-        // Install the Maven version configured as "M3" and add it to the path.
-        maven "MAVEN_HOME"
-    }
+ARTIFACT_SERVER_URL: http://localhost:8082/artifactory
+ARTIFACT_REPO_NAME: libs-snapshot-local
+ARTIFACT_LOC:com/durgasoft/weshopify-platform-app
+ARTIFACT_VERSION=0.0.1-SNAPSHOT/
 
-    stages{
-        stage('pull code from git scm'){
-         steps{
-             echo '=======pull the code from gir scm========'
-             git branch: 'main',
-             url: 'https://github.com/ashikale/ValidationPractise.git'
-             echo '=======source code pulled========'
-         }
-    }
-     stage('Build the source code'){
-         steps{
-             echo '=======code building is starting========'
-             bat 'cd weshopify-platform-app '
-             bat 'cd weshopify-platform-app && mvn clean package'
-             echo '=======JAR file generated========'
-         }
-    }
-    stage('deploy to frog'){
-         steps{
-             echo '=======jrog building is starting========'
+ARTIFACT_REPO_URL=$ARTIFACT_SERVER_URL/$ARTIFACT_REPO_NAME/$ARTIFACT_LOC/$ARTIFACT_VERSION
 
-             bat 'cd weshopify-platform-app && mvn deploy'
-             echo '=======JAR file transfer to JFROG========'
-         }
-    }
+ARTIFACT_META_XML=maven-metadata.xml
 
-    }
-    stage('copy jfrog.sh file to docker machine'){
-         steps{
-             echo '=======jrog.sh file copy started========'
+ARTIFACTORY_USER=admin
+ARTIFACTORY_PASSWORD=E1891@Urja
+ARTIFACT_NAME=weshopify-platform-app
 
-             bat 'cd weshopify-platform-app && copy Jfrog.sh Sandesh@192.168.31.92:D:\Docker'
-             echo '=======Jfrog filed copied========'
-         }
-    }
+ARTIFACT_VERSION_WITH_TIME_STAMP=$(curl -u $ARTIFACTORY_USER:ARTIFACTORY_PASSWORD $ARTIFACT_REPO_URL/$ARTIFACT_META_XML | grep '<value>'| head -1 | sed "s/.*<value>\([^<]*\)<\/value>.*/\1/")
 
-    }
+FINAL_ARTIFACT_URL=$ARTIFACT_REPO_URL/$ARTIFACT_NAME-$ARTIFACT_VERSION_WITH_TIME_STAMP.jar
 
-}
+wget --user=$ARTIFACTORY_USER --password=$ARTIFACTORY_PASSWORD $FINAL_ARTIFACT_URL 
+cp $ARTIFACT_NAME=$ARTIFACT_VERSION_WITH_TIME_STAMP.jar $ARTIFACT_NAME.jar
+
+rm $ARTIFACT_NAME=$ARTIFACT_VERSION_WITH_TIME_STAMP.jar
