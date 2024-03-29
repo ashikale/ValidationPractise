@@ -41,7 +41,7 @@
          steps{
              echo '=======jrog.sh file copy started========'
 
-             bat 'cd weshopify-platform-app && copy Jfrog.sh D:\Docker\'
+             bat 'cd weshopify-platform-app && copy Jfrog.sh'
              echo '=======Jfrog filed copied========'
          }
     }
