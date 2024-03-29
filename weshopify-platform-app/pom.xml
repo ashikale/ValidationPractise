@@ -44,6 +44,11 @@
 		</plugins>
 	</build>
 	<distributionManagement>
+	<repository>
+        <id>central</id>
+        <name>Sandesh-snapshots</name>
+        <url>http://localhost:8081/artifactory/libs-snapshot-local</url>
+    </repository>
     <snapshotRepository>
         <id>central</id>
         <name>Sandesh-snapshots</name>
